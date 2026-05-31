@@ -1,0 +1,52 @@
+name: CI - Chạy tất cả bài học
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    name: Chạy bài ${{ matrix.lesson }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        lesson:
+          - bai1_react_loop.py
+          - bai2_system_prompt.py
+          - bai3_tool_system.py
+          - bai4_context_management.py
+          - bai5_multi_agent.py
+          - bai6_skills_extensibility.py
+          - bai7_guardrails_production.py
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cài đặt Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Chạy ${{ matrix.lesson }}
+        run: python ${{ matrix.lesson }}
+        timeout-minutes: 2
+
+  test-all:
+    name: Chạy tất cả bài (run_all.py)
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cài đặt Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Chạy run_all.py
+        run: python run_all.py
+        timeout-minutes: 5
