@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kiến trúc AI Coding Agent - Phân tích Qoder</title>
+    <title>Kiến trúc AI Coding Agent - Khóa học Chuyên sâu</title>
     <style>
         :root {
             --bg: #0d1117;
             --surface: #161b22;
+            --surface-hover: #21262d;
             --border: #30363d;
             --text: #e6edf3;
             --text-secondary: #8b949e;
@@ -25,7 +26,8 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 16px;
         }
 
         .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
@@ -33,33 +35,40 @@
         /* Header */
         header {
             border-bottom: 1px solid var(--border);
-            padding: 48px 0 32px;
+            padding: 64px 0 48px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(88,166,255,0.05) 0%, rgba(13,17,23,0) 100%);
         }
         header h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
         }
         header .subtitle {
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 16px;
+            font-size: 1.25rem;
+            margin-bottom: 24px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .meta {
             display: flex;
             gap: 16px;
             flex-wrap: wrap;
-            font-size: 0.9rem;
+            justify-content: center;
+            font-size: 0.95rem;
             color: var(--text-secondary);
         }
         .meta a { color: var(--accent); text-decoration: none; }
         .meta a:hover { text-decoration: underline; }
         .badge {
             display: inline-block;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 500;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
         }
         .badge-green { background: rgba(63,185,80,0.15); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
         .badge-blue { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
@@ -70,157 +79,196 @@
             padding: 24px 0;
             position: sticky;
             top: 0;
-            background: var(--bg);
-            z-index: 10;
+            background: rgba(13, 17, 23, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 100;
         }
-        nav.toc h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 12px; }
-        .toc-list { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; }
+        nav.toc h2 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 12px; font-weight: 600; }
+        .toc-list { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; }
         .toc-list a {
             display: inline-block;
-            padding: 6px 14px;
-            border-radius: 6px;
+            padding: 8px 16px;
+            border-radius: 20px;
             background: var(--surface);
             border: 1px solid var(--border);
             color: var(--text);
             text-decoration: none;
-            font-size: 0.85rem;
-            transition: border-color 0.2s;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
-        .toc-list a:hover { border-color: var(--accent); color: var(--accent); }
+        .toc-list a:hover { border-color: var(--accent); color: var(--accent); background: var(--surface-hover); transform: translateY(-1px); }
 
         /* Lessons */
         .lesson {
-            padding: 48px 0;
+            padding: 64px 0;
             border-bottom: 1px solid var(--border);
         }
         .lesson:last-child { border-bottom: none; }
         .lesson-number {
-            font-size: 0.8rem;
-            font-weight: 600;
+            font-size: 0.9rem;
+            font-weight: 700;
             color: var(--accent);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            display: inline-block;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 4px;
         }
         .lesson h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.3;
         }
         .lesson .desc {
             color: var(--text-secondary);
-            margin-bottom: 24px;
+            font-size: 1.15rem;
+            margin-bottom: 40px;
+            line-height: 1.6;
         }
 
-        .section { margin-bottom: 32px; }
+        .section { margin-bottom: 48px; }
         .section h3 {
-            font-size: 1.1rem;
+            font-size: 1.4rem;
             font-weight: 600;
-            margin-bottom: 12px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+            color: #fff;
         }
 
-        .section p { margin-bottom: 12px; }
+        .section p { margin-bottom: 16px; font-size: 1.05rem; }
+        .section p strong { color: #fff; }
 
-        ul, ol { margin: 0 0 16px 24px; }
-        li { margin-bottom: 6px; }
+        ul, ol { margin: 0 0 20px 24px; }
+        li { margin-bottom: 8px; font-size: 1.05rem; }
+        li strong { color: #fff; }
 
         pre {
-            background: var(--code-bg);
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 16px;
+            border-radius: 10px;
+            padding: 20px;
             overflow-x: auto;
-            font-size: 0.85rem;
-            line-height: 1.5;
-            margin-bottom: 16px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         code {
             font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas, monospace;
-            font-size: 0.85em;
+            font-size: 0.9em;
         }
         p code, li code {
             background: var(--surface);
-            padding: 2px 6px;
-            border-radius: 4px;
+            padding: 3px 6px;
+            border-radius: 6px;
             border: 1px solid var(--border);
+            font-size: 0.9em;
         }
 
         table {
             width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 16px;
-            font-size: 0.9rem;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
         }
         th, td {
-            padding: 10px 12px;
-            border: 1px solid var(--border);
+            padding: 14px 16px;
             text-align: left;
+            border-bottom: 1px solid var(--border);
+            border-right: 1px solid var(--border);
         }
-        th { background: var(--surface); font-weight: 600; }
-
-        .diagram {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 16px;
-            font-family: 'SF Mono', Menlo, Consolas, monospace;
-            font-size: 0.8rem;
-            line-height: 1.4;
-            white-space: pre;
-            overflow-x: auto;
-        }
+        th:last-child, td:last-child { border-right: none; }
+        tr:last-child td { border-bottom: none; }
+        th { background: var(--surface); font-weight: 600; color: #fff; }
+        tr:hover td { background: rgba(255,255,255,0.02); }
 
         .takeaway {
-            background: rgba(88,166,255,0.08);
-            border: 1px solid rgba(88,166,255,0.2);
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 24px;
+            background: rgba(88,166,255,0.05);
+            border: 1px solid rgba(88,166,255,0.3);
+            border-radius: 12px;
+            padding: 28px;
+            margin-top: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .takeaway::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--accent);
         }
         .takeaway h4 {
             color: var(--accent);
-            margin-bottom: 12px;
-            font-size: 0.9rem;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            font-weight: 700;
         }
         .takeaway ol { margin-bottom: 0; }
+        .takeaway li { font-size: 1.05rem; }
 
         .highlight { color: var(--accent); font-weight: 600; }
-        .green { color: var(--green); }
-        .yellow { color: var(--yellow); }
-        .red { color: var(--red); }
+
+        .mermaid {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+        }
 
         /* Footer */
         footer {
             border-top: 1px solid var(--border);
-            padding: 32px 0;
+            padding: 48px 0;
             text-align: center;
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.95rem;
+            background: var(--surface);
         }
-        footer a { color: var(--accent); text-decoration: none; }
+        footer p { margin-bottom: 8px; }
+        footer a { color: var(--accent); text-decoration: none; font-weight: 500; }
+        footer a:hover { text-decoration: underline; }
 
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.5rem; }
-            .lesson h2 { font-size: 1.2rem; }
-            pre { font-size: 0.75rem; padding: 12px; }
-            .diagram { font-size: 0.7rem; padding: 12px; }
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            .lesson h2 { font-size: 1.6rem; }
+            pre { font-size: 0.8rem; padding: 16px; }
+            .container { padding: 0 16px; }
+            .section h3 { font-size: 1.2rem; }
+            .takeaway { padding: 20px; }
         }
     </style>
+    <!-- Thêm Mermaid.js -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+          startOnLoad: true,
+          theme: 'dark',
+          flowchart: { curve: 'basis' },
+          sequence: { useMaxWidth: true }
+      });
+    </script>
 </head>
 <body>
 
 <header>
     <div class="container">
-        <h1>Kiến trúc AI Coding Agent</h1>
-        <p class="subtitle">Phân tích Qoder từ internal knowledge - Từ pattern đến production</p>
+        <h1>Kiến trúc AI Coding Agent Chuyên Sâu</h1>
+        <p class="subtitle">Phân tích toàn diện từ Core Pattern đến Môi trường Production thực tế. Đào sâu vào cách các AI Agent vận hành.</p>
         <div class="meta">
             <span>Tác giả: <strong>Qwen3.7-Max</strong></span>
-            <span>GitHub: <a href="https://github.com/tuandung222/qoder-architecture-course">tuandung222/qoder-architecture-course</a></span>
             <span class="badge badge-green">7/7 CI passing</span>
             <span class="badge badge-blue">Python 3.9+</span>
         </div>
@@ -229,7 +277,7 @@
 
 <nav class="toc">
     <div class="container">
-        <h2>Mục lục</h2>
+        <h2>Mục lục Bài Giảng</h2>
         <ul class="toc-list">
             <li><a href="#bai1">1. Core Loop</a></li>
             <li><a href="#bai2">2. System Prompt</a></li>
@@ -250,82 +298,56 @@
 <!-- ============================================================ -->
 <section class="lesson" id="bai1">
     <div class="lesson-number">Bài 1</div>
-    <h2>Agent Core Loop - Bộ não của Qoder</h2>
-    <p class="desc">ReAct pattern, Think-Act-Observe loop, và cách Qoder xử lý yêu cầu từ user.</p>
+    <h2>Agent Core Loop - Bộ não Tư duy của AI</h2>
+    <p class="desc">Phân tích sâu sắc về ReAct pattern (Reasoning & Acting), vòng lặp Think-Act-Observe, và cơ chế đưa ra quyết định tự động của Agent.</p>
 
     <div class="section">
-        <h3>Agent là gì? Khác gì với chatbot?</h3>
-        <p>Một <strong>chatbot</strong> thông thường: nhận câu hỏi &rarr; trả lời. Hết. Không có khả năng tương tác với thế giới bên ngoài.</p>
-        <p>Một <strong>agent</strong> như Qoder: nhận yêu cầu &rarr; <span class="highlight">tự suy nghĩ và hành động</span> để hoàn thành yêu cầu. Có "tay chân" (tools) để đọc file, chạy lệnh, search web... Có <strong>vòng lặp ra quyết định</strong>: làm gì tiếp theo, khi nào dừng.</p>
-        <p>Điểm khác biệt cốt lõi: <strong>Agent có khả năng tự quyết định bước tiếp theo dựa trên kết quả quan sát được.</strong></p>
+        <h3>1. Agent Thực Sự Khác Biệt Thế Nào?</h3>
+        <p>Chào các bạn. Rất nhiều người nhầm lẫn giữa một LLM thông thường (như ChatGPT ban đầu) và một AI Agent. Bản chất của một <strong>Chatbot</strong> là một mô hình sinh văn bản tĩnh: bạn cung cấp text đầu vào, nó dự đoán text đầu ra. Nó không có "tay chân", không thể nhận thức thế giới bên ngoài ngoài những gì bạn vừa gõ.</p>
+        <p>Trong khi đó, một <strong>Agent</strong> là một thực thể có khả năng tự chủ. Nó nhận một mục tiêu phức tạp, tự phân rã vấn đề, tự quyết định gọi các <strong>Tools</strong> (công cụ như đọc file, chạy terminal, search web), quan sát kết quả trả về từ môi trường, và tiếp tục suy luận cho đến khi hoàn thành mục tiêu. Điểm khác biệt cốt lõi: <span class="highlight">Agent sở hữu một Vòng lặp Nhận thức và Hành động (Cognitive Loop).</span></p>
     </div>
 
     <div class="section">
-        <h3>ReAct Loop - Core Pattern</h3>
-        <p>ReAct = <strong>Re</strong>asoning + <strong>Act</strong>ing. Mọi AI coding agent đều chạy trên một vòng lặp tương tự:</p>
-        <div class="diagram">  +------------------+
-  |  USER REQUEST    |
-  +--------+---------+
-           |
-           v
-  +--------+---------+
-  |     THINK         |&lt;----+
-  |  (LLM phân tích)  |     |
-  +--------+---------+     |
-           |               |
-     +-----+-----+         |
-     |           |         |
-  Cần tool?   Không        |
-     |           |         |
-     v           v         |
-  +--+--+   Final Answer   |
-  | ACT |                  |
-  +--+--+                  |
-     |                     |
-     v                     |
-  +--+-------+             |
-  | OBSERVE  |             |
-  | (kết quả)|             |
-  +--+-------+             |
-     |                     |
-  Xong chưa?---Có---+      |
-     |                    |
-    Không-----------------+</div>
+        <h3>2. Bản Chất Của ReAct (Reason + Act) Loop</h3>
+        <p>Trái tim của mọi Agent hiện đại là ReAct pattern. Thay vì bắt LLM nghĩ ra toàn bộ giải pháp ngay lập tức, ReAct buộc LLM phải đan xen giữa Suy luận (Reasoning) và Hành động (Acting). Dưới đây là cách luồng thông tin di chuyển:</p>
+
+        <div class="mermaid">
+        flowchart TD
+            User([User Request]) --> A
+            A[THINK\nLLM phân tích vấn đề và lập kế hoạch] --> B{Cần dùng Tool?}
+            B -- Có --> C[ACT\nGọi Tool / Hàm cụ thể]
+            C --> D[OBSERVE\nNhận kết quả từ môi trường]
+            D --> A
+            B -- Không --> E([Final Answer\nHoàn thành nhiệm vụ])
+
+            style A fill:#21262d,stroke:#58a6ff,stroke-width:2px
+            style C fill:#21262d,stroke:#3fb950,stroke-width:2px
+            style D fill:#21262d,stroke:#d29922,stroke-width:2px
+        </div>
     </div>
 
     <div class="section">
-        <h3>Phân tích Qoder thực tế</h3>
-        <p>Khi bạn bảo Qoder "Fix bug trong file login.py", đây là những gì xảy ra bên trong:</p>
+        <h3>3. Phân Tích Trace Thực Tế: Sửa Một Bug</h3>
+        <p>Hãy xem một Agent thực tế giải quyết yêu cầu "Fix bug trong login.py" như thế nào. Lưu ý cách nó phản hồi với các rào cản:</p>
         <table>
-            <tr><th>Iteration</th><th>Think</th><th>Act (Tool)</th><th>Observe</th></tr>
-            <tr><td>1</td><td>Cần đọc file trước</td><td><code>read_file("login.py")</code></td><td>Nội dung file (200 dòng)</td></tr>
-            <tr><td>2</td><td>Tìm lỗi + check test</td><td><code>glob("**/test_login*")</code></td><td>Tìm thấy tests/test_login.py</td></tr>
-            <tr><td>3</td><td>Bug ở dòng 42, cần fix</td><td><code>edit("login.py", ...)</code></td><td>"Đã sửa thành công"</td></tr>
-            <tr><td>4</td><td>Verify fix</td><td><code>bash("pytest ...")</code></td><td>"5 passed, 0 failed"</td></tr>
-            <tr><td>5</td><td>Hoàn thành</td><td>Final answer</td><td>"Đã fix bug null check..."</td></tr>
+            <tr><th>Vòng lặp (Iter)</th><th>Quá Trình Suy Luận (Think)</th><th>Hành Động (Act)</th><th>Kết Quả Quan Sát (Observe)</th></tr>
+            <tr><td>1</td><td>Tôi cần đọc mã nguồn của file login.py để hiểu logic hiện tại.</td><td><code>read_file("login.py")</code></td><td>[Trả về nội dung 200 dòng]</td></tr>
+            <tr><td>2</td><td>Tôi thấy hàm xác thực chưa xử lý lỗi None. Tôi cần tìm xem có test case nào không.</td><td><code>glob("**/test_login*.py")</code></td><td>Tìm thấy tests/test_login.py</td></tr>
+            <tr><td>3</td><td>Tôi sẽ vá hàm login bằng cách thêm check null ở dòng 42.</td><td><code>edit("login.py", diff)</code></td><td>"Patch applied successfully"</td></tr>
+            <tr><td>4</td><td>Bây giờ tôi phải xác minh xem code tôi vừa sửa có làm hỏng gì không.</td><td><code>bash("pytest tests/test_login.py")</code></td><td>"1 failed, 4 passed" (Vẫn còn lỗi)</td></tr>
+            <tr><td>5</td><td>Ah, test fail do thiếu import ValueError. Tôi sẽ thêm vào đầu file.</td><td><code>edit("login.py", diff_import)</code></td><td>"Patch applied successfully"</td></tr>
+            <tr><td>6</td><td>Kiểm tra lại lần nữa.</td><td><code>bash("pytest tests/test_login.py")</code></td><td>"5 passed, 0 failed"</td></tr>
+            <tr><td>7</td><td>Mọi thứ đã xanh. Tôi có thể báo cáo hoàn thành.</td><td>Trả về Final Answer</td><td>"Đã fix bug null check..."</td></tr>
         </table>
-        <p><strong>Tổng cộng: 5 iterations, 4 tool calls.</strong> Task phức tạp có thể cần 20-30 iterations.</p>
-    </div>
-
-    <div class="section">
-        <h3>Cơ chế điều khiển vòng lặp</h3>
-        <table>
-            <tr><th>Cơ chế</th><th>Mục đích</th></tr>
-            <tr><td><strong>max_iterations</strong></td><td>Chặn vòng lặp vô hạn (tốn tiền)</td></tr>
-            <tr><td><strong>TodoWrite</strong></td><td>Agent tự track tiến độ, không quên task</td></tr>
-            <tr><td><strong>AskUserQuestion</strong></td><td>Dừng lại hỏi user khi không chắc chắn</td></tr>
-            <tr><td><strong>Plan Mode</strong></td><td>Tách "lập kế hoạch" và "thực thi" riêng</td></tr>
-            <tr><td><strong>Sub-agents</strong></td><td>Delegate task nhỏ cho agent khác, giảm context</td></tr>
-            <tr><td><strong>Auto-summarization</strong></td><td>Tóm tắt conversation khi quá dài</td></tr>
-        </table>
+        <p>Ở đây, agent đã tự chữa lành lỗi do chính nó gây ra (iteration 4-5). Đây chính là sức mạnh của vòng lặp <strong>Observe</strong>. Không có nó, code sinh ra sẽ chỉ là phỏng đoán mù quáng.</p>
     </div>
 
     <div class="takeaway">
-        <h4>Takeaway</h4>
+        <h4>Bài Học Cốt Lõi (Takeaways)</h4>
         <ol>
-            <li><strong>Agent = LLM + Tools + Loop</strong> (bộ não + tay chân + nhịp tim)</li>
-            <li>Quality phụ thuộc: LLM thông minh + Tools đủ tốt + Loop điều khiển tốt</li>
-            <li>Mỗi iteration = tiền. Càng ít iterations càng tốt, nhưng cần LLM "thông minh" hơn</li>
+            <li><strong>Mô hình Công thức:</strong> Agent = LLM + Tools + Control Loop. LLM là não bộ, Tools là tay chân, Control Loop là nhịp đập của sự sống.</li>
+            <li><strong>Chất lượng của một Agent</strong> không chỉ dựa vào mô hình to hay nhỏ, mà phụ thuộc cực lớn vào độ tin cậy của Tools và cơ chế xử lý lỗi (error handling) trong Loop.</li>
+            <li><strong>Chi phí (Cost):</strong> Mỗi vòng lặp (Iteration) tiêu tốn Token. Một Agent giỏi là Agent biết lập kế hoạch tốt để hoàn thành mục tiêu với số lần gọi tool ít nhất.</li>
         </ol>
     </div>
 </section>
@@ -335,63 +357,49 @@
 <!-- ============================================================ -->
 <section class="lesson" id="bai2">
     <div class="lesson-number">Bài 2</div>
-    <h2>System Prompt Design - "DNA" của Agent</h2>
-    <p class="desc">Cấu trúc system prompt 7 tầng của Qoder và cách thiết kế prompt cho coding agent.</p>
+    <h2>System Prompt Design - Kiến trúc "DNA" của Agent</h2>
+    <p class="desc">System Prompt không đơn thuần là một đoạn text, nó là kiến trúc phần mềm quyết định toàn bộ giới hạn nhận thức và quy chuẩn hành vi.</p>
 
     <div class="section">
-        <h3>System prompt là gì?</h3>
-        <p>System prompt là "DNA" của agent - nó quyết định <strong>MỌI</strong> hành vi. Prompt tốt có cấu trúc rõ ràng theo layers, không phải một kho text hỗn độn.</p>
+        <h3>1. Đừng Viết Prompt, Hãy "Thiết Kế" Prompt</h3>
+        <p>Một sai lầm phổ biến khi lập trình viên bắt đầu làm Agent là viết System Prompt như viết một bài văn dài lê thê: <em>"Bạn là AI giỏi, hãy làm việc này, đừng làm việc kia, nhớ dùng tool này nhé..."</em>. Khi độ phức tạp tăng lên, LLM sẽ bắt đầu quên các chỉ thị ở giữa, hoặc lẫn lộn các nguyên tắc. System Prompt của một Agent Production cần phải có tính cấu trúc sâu sắc, phân tầng rõ rệt hệt như mô hình OSI trong mạng máy tính.</p>
     </div>
 
     <div class="section">
-        <h3>Cấu trúc 7 tầng của Qoder</h3>
-        <table>
-            <tr><th>Layer</th><th>Tên</th><th>Mục đích</th><th>Ví dụ</th></tr>
-            <tr><td>1</td><td><strong>IDENTITY</strong></td><td>Tên, vai trò, giới hạn</td><td>"You are Qoder, an AI coding assistant"</td></tr>
-            <tr><td>2</td><td><strong>TONE & STYLE</strong></td><td>Cách giao tiếp</td><td>"Short, concise. Match user language"</td></tr>
-            <tr><td>3</td><td><strong>SAFETY RULES</strong></td><td>Những điều KHÔNG được làm</td><td>"Never commit/push without asking"</td></tr>
-            <tr><td>4</td><td><strong>TOOL POLICIES</strong></td><td>Cách dùng tools</td><td>"Read before edit. Use Glob not find"</td></tr>
-            <tr><td>5</td><td><strong>TASK GUIDELINES</strong></td><td>Quy trình làm việc</td><td>"Plan first. Verify after coding"</td></tr>
-            <tr><td>6</td><td><strong>DYNAMIC CONTEXT</strong></td><td>Thông tin môi trường</td><td>Working dir, platform, date, git status</td></tr>
-            <tr><td>7</td><td><strong>AVAILABLE SKILLS</strong></td><td>Khả năng mở rộng</td><td>ui-designer, vercel-deploy, ...</td></tr>
-        </table>
+        <h3>2. Cấu Trúc 7 Tầng Chuyên Sâu</h3>
+        <p>Chúng ta phân chia prompt thành 7 layer độc lập, được tiêm (inject) tuần tự. Điều này giúp dễ dàng mở rộng và gỡ lỗi (debug) hành vi của Agent.</p>
+
+        <div class="mermaid">
+        block-beta
+        columns 1
+          A["Layer 1: IDENTITY (Định danh, Vai trò cốt lõi)"]
+          B["Layer 2: TONE & STYLE (Phong cách giao tiếp, Concise/Verbose)"]
+          C["Layer 3: SAFETY GUARDRAILS (Ranh giới đỏ không được vượt qua)"]
+          D["Layer 4: TOOL POLICIES (Luật sử dụng bộ công cụ)"]
+          E["Layer 5: TASK GUIDELINES (Quy trình chuẩn - SOP để giải quyết vấn đề)"]
+          F["Layer 6: DYNAMIC CONTEXT (OS, Dir, Git Status hiện tại)"]
+          G["Layer 7: AVAILABLE SKILLS (Các plugin động đang được nạp)"]
+        </div>
     </div>
 
     <div class="section">
-        <h3>So sánh Qoder vs tự xây dựng</h3>
-        <table>
-            <tr><th>Aspect</th><th>Qoder</th><th>Tự xây dựng</th></tr>
-            <tr><td>Safety</td><td>~15 rules chi tiết</td><td>5 core rules, extensible</td></tr>
-            <tr><td>Tool policies</td><td>~20 rules</td><td>5 core policies</td></tr>
-            <tr><td>Git safety</td><td>Check authorship, no force push, HEREDOC</td><td>Never commit/push without permission</td></tr>
-            <tr><td>Size</td><td>~5000+ tokens</td><td>~500 tokens</td></tr>
-        </table>
-    </div>
+        <h3>3. Phân Tích Các Layer Quan Trọng</h3>
+        <p><strong>Layer 3: Safety Guardrails (Ranh giới đỏ)</strong><br>
+        Đây là nơi bạn bảo vệ hệ thống của mình khỏi sự ngớ ngẩn của AI. Ví dụ: <em>"NEVER use `rm -rf`. ALWAYS ask user before executing git push. DO NOT modify files outside the workspace."</em> LLM tuân thủ chỉ thị cấm (Negative Prompt) tốt nhất khi chúng được gom nhóm lại thành một khối cảnh báo mạnh mẽ.</p>
 
-    <div class="section">
-        <h3>Code demo: Builder Pattern</h3>
-        <pre><code>builder = SystemPromptBuilder()
-prompt = (
-    builder
-    .add_identity("CodeHelper", "an AI coding assistant")
-    .add_tone(style="concise", language_rule="match user")
-    .add_safety()          # Layer 3: 5 safety rules
-    .add_tool_policies()   # Layer 4: 5 tool policies
-    .add_task_guidelines() # Layer 5: 5 guidelines
-    .add_dynamic_context(working_dir="/project", platform="linux")
-    .add_skills([...])     # Layer 7: available skills
-    .build()
-)</code></pre>
+        <p><strong>Layer 5: Task Guidelines (Quy trình chuẩn - SOP)</strong><br>
+        Thay vì để LLM tự bơi, hãy dạy nó cách làm việc của một Senior Engineer. Ví dụ: <em>"1. Explore the codebase using `grep` before writing code. 2. Write unit tests before implementing the logic. 3. Always run tests to verify."</em></p>
+
+        <p><strong>Layer 6: Dynamic Context (Ngữ cảnh động)</strong><br>
+        System prompt không tĩnh. Trước khi gửi cho API, bạn phải "Bơm" thông tin thực thời vào. Ví dụ: Agent cần biết hệ điều hành đang dùng là Windows hay Linux để viết script bash cho đúng. Nó cần biết thư mục hiện tại (`pwd`). Mọi thứ được render qua Template Engine (như Jinja2).</p>
     </div>
 
     <div class="takeaway">
-        <h4>Takeaway</h4>
+        <h4>Bài Học Cốt Lõi (Takeaways)</h4>
         <ol>
-            <li>System prompt quyết định MỌI hành vi của agent</li>
-            <li>Prompt tốt có CẤU TRÚC RÕ RÀNG theo layers</li>
-            <li>Qoder's prompt ~5000+ tokens vì cover nhiều edge cases</li>
-            <li>Builder pattern giúp thêm/bớt/tùy chỉnh từng layer dễ dàng</li>
-            <li>Dynamic context được INJECT MỖI SESSION, không hardcode</li>
+            <li><strong>Sử dụng Builder Pattern:</strong> Đừng dùng một chuỗi string khổng lồ. Hãy tạo một class <code>SystemPromptBuilder</code> để add từng layer vào một cách linh hoạt theo session.</li>
+            <li><strong>Position Bias:</strong> Thông tin ở đầu và cuối prompt được LLM ghi nhớ tốt nhất. Hãy đặt Identity ở đầu, và Dynamic Context/Rules ở sát cuối.</li>
+            <li><strong>Chi phí Token:</strong> System Prompt dài tốn rất nhiều tiền vì nó được gửi kèm trong MỌI VÒNG LẶP (Iteration). Tối ưu hóa câu chữ là bắt buộc.</li>
         </ol>
     </div>
 </section>
@@ -401,64 +409,59 @@ prompt = (
 <!-- ============================================================ -->
 <section class="lesson" id="bai3">
     <div class="lesson-number">Bài 3</div>
-    <h2>Tool System - Tay và chân của Agent</h2>
-    <p class="desc">Hệ thống 25+ tools của Qoder, function calling, và parallel vs sequential execution.</p>
+    <h2>Tool System - Đôi Tay Linh Hoạt Của AI</h2>
+    <p class="desc">Phân tích chuyên sâu về Function Calling, thiết kế Tool chuẩn Unix Philosophy, và cơ chế thực thi song song (Parallel Execution).</p>
 
     <div class="section">
-        <h3>6 nhóm tools của Qoder</h3>
+        <h3>1. Thiết Kế Tool Theo Triết Lý Unix</h3>
+        <p>Nếu bạn thiết kế một tool tên là <code>fix_code_and_run_test</code>, bạn đã thất bại. Một tool tốt phải tuân thủ nguyên tắc: <strong>Làm một việc duy nhất, và làm nó thật tốt.</strong></p>
+        <p>Agent cần các primitive tools (công cụ cơ sở) để tự tổ hợp chúng lại. Tại sao? Vì nếu tool quá phức tạp, LLM sẽ rất khó suy luận ra tham số (parameters) đúng cho nó, dẫn đến ảo giác (hallucination) trong việc gọi hàm.</p>
+
         <table>
-            <tr><th>Nhóm</th><th>Tools</th><th>Nguyên tắc thiết kế</th></tr>
-            <tr><td><strong>File Operations</strong></td><td>Read, Write, Edit, DeleteFile, Glob, Grep</td><td>Mỗi tool làm MỘT việc (Unix philosophy). Edit chỉ gửi diff</td></tr>
-            <tr><td><strong>Terminal</strong></td><td>Bash, CheckRuntime, KillBash</td><td>Timeout, background mode, output truncation</td></tr>
-            <tr><td><strong>Web</strong></td><td>WebSearch, WebFetch</td><td>Cache 15 phút, xử lý redirect, không generate URL</td></tr>
-            <tr><td><strong>Code Intelligence</strong></td><td>search_codebase, search_symbol, get_problems</td><td>Semantic search hiểu ý nghĩa, không chỉ exact match</td></tr>
-            <tr><td><strong>UI/Visual</strong></td><td>ImageGen, show_widget</td><td>Widget: CSS variables, flat design, CDN only</td></tr>
-            <tr><td><strong>Meta</strong></td><td>TodoWrite, AskUserQuestion, EnterSpecMode, Task</td><td>Điều khiển FLOW của agent</td></tr>
+            <tr><th>Nhóm Chức Năng</th><th>Primitive Tools (Nên Dùng)</th><th>Giải Thích Của Giảng Viên</th></tr>
+            <tr><td><strong>File System</strong></td><td><code>read_file</code>, <code>write_file</code>, <code>edit_file_diff</code>, <code>glob</code></td><td>Luôn tách riêng việc đọc toàn bộ file và sửa đổi file bằng diff (giúp tiết kiệm token).</td></tr>
+            <tr><td><strong>Terminal</strong></td><td><code>run_bash</code>, <code>kill_process</code></td><td>Bash tool là quyền lực nhất, nhưng phải có timeout (vd: 120s) và tự động cắt ngắn (truncate) output nếu quá dài.</td></tr>
+            <tr><td><strong>Code Intel</strong></td><td><code>search_code</code>, <code>find_usages</code></td><td>Thay vì để LLM tự <code>grep</code> mù quáng, cung cấp tool Semantic Search bằng AST (Abstract Syntax Tree).</td></tr>
         </table>
     </div>
 
     <div class="section">
-        <h3>Parallel vs Sequential</h3>
-        <div class="diagram">  SEQUENTIAL (tuần tự) - Tool sau PHỤ THUỘC tool trước:
+        <h3>2. Parallel vs Sequential Execution (Thực thi Song Song)</h3>
+        <p>Bí quyết để Agent chạy nhanh như chớp là khả năng gọi nhiều tool cùng lúc. LLM hiện đại hỗ trợ trả về nhiều <code>tool_calls</code> trong một response.</p>
 
-    Step 1: read_file("login.py")        &lt;-- Cần đọc trước
-    Step 2: edit_file("login.py", ...)   &lt;-- Phụ thuộc Step 1
-    Step 3: run_command("pytest")        &lt;-- Phụ thuộc Step 2
+        <div class="mermaid">
+        sequenceDiagram
+            participant LLM as Agent (LLM)
+            participant T1 as read_file(file_A)
+            participant T2 as read_file(file_B)
+            participant T3 as read_file(file_C)
 
-  PARALLEL (song song) - Các tool ĐỘC LẬP:
+            note over LLM: Agent phát hiện cần đọc 3 file độc lập
+            LLM->>T1: [Parallel Call]
+            LLM->>T2: [Parallel Call]
+            LLM->>T3: [Parallel Call]
 
-    Step 1 (đồng thời):
-      +-- read_file("auth/login.py")
-      +-- read_file("auth/register.py")
-      +-- read_file("auth/middleware.py")
+            T1-->>LLM: Output A
+            T2-->>LLM: Output B
+            T3-->>LLM: Output C
+            note over LLM: Tiết kiệm được 2/3 thời gian so với gọi tuần tự!
+        </div>
 
-    Step 2: Phân tích tổng hợp từ 3 file</div>
-        <p><strong>Quy tắc:</strong> Độc lập &rarr; PARALLEL (nhanh hơn). Phụ thuộc &rarr; SEQUENTIAL.</p>
+        <p><strong>Cạm bẫy:</strong> Không phải lúc nào cũng Parallel được. Nếu hành động sau phụ thuộc vào kết quả của hành động trước (ví dụ: tạo file xong mới chạy test), Agent phải được dạy cách phân biệt và gọi tuần tự.</p>
     </div>
 
     <div class="section">
-        <h3>ToolExecutor Pattern</h3>
-        <pre><code>executor = ToolExecutor(working_dir=".")
-executor.register("read_file", read_file, "Đọc file với số dòng")
-executor.register("write_file", write_file, "Ghi nội dung vào file")
-executor.register("edit_file", edit_file, "Sửa bằng exact replacement")
-executor.register("run_command", run_command, "Chạy lệnh shell")
-
-result = executor.execute("edit_file", {
-    "path": "app.py",
-    "old_string": "print('Hello')",
-    "new_string": "print('Hello, World!')"
-})
-# {"success": True, "result": "Đã sửa thành công app.py"}</code></pre>
+        <h3>3. Xử Lý Lỗi (Error Handling) Cho Tools</h3>
+        <p>Đây là điểm khác biệt giữa code đồ chơi và production. Khi tool bash chạy lỗi (ví dụ: lệnh không tồn tại, hoặc python crash), <strong>tuyệt đối không được throw exception làm sập chương trình.</strong></p>
+        <p>Bạn phải bắt (catch) toàn bộ lỗi, đóng gói nó thành một chuỗi văn bản thân thiện (ví dụ: <code>"Command failed with exit code 1. Stderr: ..."</code>) và ném trả lại cho vòng lặp <em>Observe</em>. Chính LLM sẽ đọc cái lỗi đó và tự nói: <em>"À, lỗi cú pháp, để mình sửa lại tham số truyền vào."</em></p>
     </div>
 
     <div class="takeaway">
-        <h4>Takeaway</h4>
+        <h4>Bài Học Cốt Lõi (Takeaways)</h4>
         <ol>
-            <li>Tools = khả năng hành động. Không tools = chỉ biết nói</li>
-            <li>Mỗi tool cần SCHEMA RÕ RÀNG (JSON Schema) để LLM biết cách dùng</li>
-            <li>Edit tool chỉ gửi DIFF, không gửi cả file &rarr; tiết kiệm token</li>
-            <li>Error handling: LUÔN trả lỗi cho LLM, đừng crash</li>
+            <li><strong>JSON Schema Định Hình Trí Thông Minh:</strong> LLM hiểu tool qua các field <code>description</code> trong schema. Mô tả tham số càng chi tiết, LLM gọi tool càng chuẩn xác.</li>
+            <li><strong>Graceful Degradation:</strong> Tools không bao giờ crash app chính. Mọi lỗi của môi trường là thông tin quý giá để Agent tự học và sửa chữa.</li>
+            <li><strong>Diff Tool là Chân Ái:</strong> Đối với file lớn (1000 dòng), việc bắt LLM viết lại (rewrite) cả file là thảm họa chi phí. Hãy bắt nó gửi chuẩn Git Merge Diff hoặc Unified Diff.</li>
         </ol>
     </div>
 </section>
@@ -468,40 +471,45 @@ result = executor.execute("edit_file", {
 <!-- ============================================================ -->
 <section class="lesson" id="bai4">
     <div class="lesson-number">Bài 4</div>
-    <h2>Context Management - Quản lý bộ nhớ</h2>
-    <p class="desc">6 chiến lược quản lý context window, auto-summarization, và memory system.</p>
+    <h2>Context Management - Quản Trị Trí Nhớ Giới Hạn</h2>
+    <p class="desc">Giải quyết bài toán muôn thuở: Khi lịch sử chat quá dài, Token bị đầy, và LLM bắt đầu "mất trí nhớ".</p>
 
     <div class="section">
-        <h3>6 chiến lược quản lý context của Qoder</h3>
-        <table>
-            <tr><th>Chiến lược</th><th>Vấn đề</th><th>Giải pháp</th></tr>
-            <tr><td><strong>Auto Summarization</strong></td><td>Context window có giới hạn</td><td>Tự tóm tắt conversation khi quá dài</td></tr>
-            <tr><td><strong>Plan Mode</strong></td><td>Task phức tạp = context dài</td><td>Tách Planning (read-only) và Execution (read-write)</td></tr>
-            <tr><td><strong>Sub-agent Delegation</strong></td><td>Context bị đầy</td><td>Spawn sub-agents, chỉ nhận kết quả cuối</td></tr>
-            <tr><td><strong>Long-term Memory</strong></td><td>Mất kiến thức qua sessions</td><td>Memory system: create, search, update, delete</td></tr>
-            <tr><td><strong>Knowledge Tree</strong></td><td>Kiến thức project quá nhiều</td><td>Organize theo tree, explore từng nhánh khi cần</td></tr>
-            <tr><td><strong>Dynamic Injection</strong></td><td>Cần env info nhưng không hardcode</td><td>Inject động mỗi session: dir, platform, date</td></tr>
-        </table>
+        <h3>1. Khủng Hoảng Context Window</h3>
+        <p>Giả sử bạn có context window là 128K tokens. Nghe có vẻ nhiều, nhưng khi Agent liên tục chạy lệnh bash, grep kết quả (đôi khi output lên tới vài chục nghìn dòng), và đọc các file lớn, chỉ sau khoảng 10-15 vòng lặp, context của bạn sẽ bị đầy. Khi đó, API từ chối phục vụ (Error: Token limit exceeded) hoặc mô hình bắt đầu bị "Attention dilution" (suy giảm tập trung, quên mất mục tiêu ban đầu).</p>
     </div>
 
     <div class="section">
-        <h3>Memory System - 4 chế độ truy xuất</h3>
-        <table>
-            <tr><th>Mode</th><th>Cách hoạt động</th><th>Khi nào dùng</th></tr>
-            <tr><td><code>fetch</code></td><td>Exact title match</td><td>Biết chính xác tên memory cần lấy</td></tr>
-            <tr><td><code>shallow</code></td><td>Keyword-based search</td><td>Có keywords liên quan, muốn coverage rộng</td></tr>
-            <tr><td><code>deep</code></td><td>Graph-based retrieval</td><td>Keywords ít, cần thorough recall</td></tr>
-            <tr><td><code>explore</code></td><td>Navigate topic tree by path</td><td>Khám phá topic tree layer by layer</td></tr>
-        </table>
+        <h3>2. Cơ Chế Auto-Summarization (Tóm tắt tự động)</h3>
+        <p>Giải pháp hiệu quả nhất là <strong>Cuộn Lịch Sử (Rolling History) kết hợp Tóm tắt.</strong></p>
+        <ul>
+            <li><strong>Giữ lại nguyên bản:</strong> K system prompt (không bao giờ đổi) + N tin nhắn mới nhất (giữ chi tiết sắc nét).</li>
+            <li><strong>Nén phần giữa:</strong> M tin nhắn cũ ở giữa được gửi cho một cuộc gọi LLM nhỏ hơn, giá rẻ (như GPT-4o-mini) để tóm tắt thành một đoạn văn bản ngắn: <em>"Tóm tắt: Agent đã đọc file X, chạy lệnh Y, tìm thấy lỗi Z và đang lên kế hoạch vá."</em></li>
+            <li>Sau đó chèn đoạn tóm tắt này vào giữa System prompt và các tin nhắn mới.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h3>3. Hệ Thống Bộ Nhớ Dài Hạn (Long-term Memory)</h3>
+        <p>Auto-summarization chỉ giải quyết trí nhớ trong 1 session làm việc. Nhưng nếu ngày hôm sau bạn lại bảo Agent sửa tính năng đó thì sao? Đây là lúc Vector Database và Kiến trúc Memory xuất hiện.</p>
+
+        <div class="mermaid">
+        flowchart LR
+            Chat[Current Session] --> |Extract Facts| E[Knowledge Extractor Agent]
+            E --> |Store| DB[(Vector / Graph DB)]
+
+            New[New Session] --> |Search Context| DB
+            DB --> |Inject Relevant Facts| Prompt[System Prompt]
+        </div>
+
+        <p>Agent được cung cấp các tool đặc biệt: <code>save_memory</code>, <code>search_memory</code>. Trước khi kết thúc một task lớn, nó có nhiệm vụ ghi lại vào não bộ: <em>"Quy ước code của dự án này dùng camelCase, database là Postgres, lệnh start là 'pnpm run dev'."</em> Lần sau, nó tự động search và cấu hình tư duy ngay từ đầu.</p>
     </div>
 
     <div class="takeaway">
-        <h4>Takeaway</h4>
+        <h4>Bài Học Cốt Lõi (Takeaways)</h4>
         <ol>
-            <li>Context window là TÀI NGUYÊN QUÝ NHẤT - có giới hạn</li>
-            <li>Auto-summarization = "unlimited context" bằng cách tóm tắt messages cũ</li>
-            <li>Sub-agent delegation giảm context load: chỉ nhận KẾT QUẢ</li>
-            <li>Memory system = bộ nhớ dài hạn qua sessions (4 retrieval modes)</li>
+            <li><strong>Context là Bất động sản đắt đỏ:</strong> Mọi output từ Terminal hay File content phải được <strong>Truncate (Cắt bớt)</strong> nếu nó vượt quá một ngưỡng nhất định (ví dụ 3000 kí tự). Đừng bao giờ nhét toàn bộ output của lệnh <code>npm install</code> vào não LLM.</li>
+            <li><strong>Sự tập trung:</strong> Khi context quá dài, mô hình xịn đến mấy cũng sẽ xao nhãng. Tóm tắt giúp tái tập trung sự chú ý của Agent vào mục tiêu cốt lõi.</li>
         </ol>
     </div>
 </section>
@@ -511,65 +519,48 @@ result = executor.execute("edit_file", {
 <!-- ============================================================ -->
 <section class="lesson" id="bai5">
     <div class="lesson-number">Bài 5</div>
-    <h2>Multi-Agent Orchestration - Đội quân Agent</h2>
-    <p class="desc">Kiến trúc Single Orchestrator + 7 Specialized Sub-agents của Qoder.</p>
+    <h2>Multi-Agent Orchestration - Phân Chia Trị Vì</h2>
+    <p class="desc">Từ một Agent cô độc vươn lên thành một cấu trúc Tổ chức đa Đặc vụ, nơi mỗi Agent đóng một vai trò chuyên biệt.</p>
 
     <div class="section">
-        <h3>Kiến trúc</h3>
-        <div class="diagram">  +-----------------------------------------------+
-  |            MAIN AGENT (Qoder)                  |
-  |  Nhận yêu cầu -> Phân tích -> Delegate/Self   |
-  +---------------------+-------------------------+
-                        |
-          +-------------+-------------+
-          |             |             |
-          v             v             v
-  +------------+ +-----------+ +------------+
-  | explore-   | | code-     | | plan-      |
-  | agent      | | reviewer  | | agent      |
-  |            | |           | |            |
-  | Read,Glob  | | Read,Bash | | Read,Glob  |
-  | Grep,Bash  | | Grep,Web  | | Grep,Bash  |
-  +------------+ +-----------+ +------------+
-
-  +------------+ +-----------+ +------------+ +-----------+
-  | design-    | | browser-  | | general-   | | qoder-    |
-  | agent      | | agent     | | purpose    | | guide     |
-  +------------+ +-----------+ +------------+ +-----------+</div>
+        <h3>1. Tại Sao Lại Cần Nhiều Agent?</h3>
+        <p>Nếu bạn dồn 25 tools khác nhau (từ lướt web, sửa code, đến thiết kế UI) vào cho một Agent duy nhất, nó sẽ bị "ngợp". System prompt sẽ phình to ra khổng lồ, và trong quá trình suy luận, nó phải lựa chọn giữa quá nhiều chức năng dẫn đến việc đưa ra quyết định sai lầm. Giải pháp là <strong>Separation of Concerns</strong> (Phân tách trách nhiệm).</p>
     </div>
 
     <div class="section">
-        <h3>7 Sub-agents</h3>
-        <table>
-            <tr><th>Agent</th><th>Vai trò</th><th>Tools riêng</th></tr>
-            <tr><td><strong>explore-agent</strong></td><td>Khám phá codebase nhanh</td><td>Read, Glob, Grep, Bash</td></tr>
-            <tr><td><strong>code-reviewer</strong></td><td>Review correctness, security, performance</td><td>Bash, Read, Glob, Grep, Web</td></tr>
-            <tr><td><strong>plan-agent</strong></td><td>Thiết kế kế hoạch triển khai</td><td>Read, Glob, Grep, Bash</td></tr>
-            <tr><td><strong>design-agent</strong></td><td>Phân tích requirements, design</td><td>Read, Write, Edit, Glob, Grep, Web</td></tr>
-            <tr><td><strong>browser-agent</strong></td><td>Tự động hóa trình duyệt</td><td>Read, Glob, Grep, Web, browser-use</td></tr>
-            <tr><td><strong>general-purpose</strong></td><td>Tác vụ tổng hợp</td><td>Tất cả tools</td></tr>
-            <tr><td><strong>qoder-guide</strong></td><td>Hướng dẫn sử dụng Qoder</td><td>Read, Glob, Grep, Web</td></tr>
-        </table>
+        <h3>2. Kiến Trúc Router / Orchestrator</h3>
+        <p>Chúng ta xây dựng mô hình có một "Quản lý trưởng" (Orchestrator) và nhiều "Chuyên viên" (Sub-agents).</p>
+
+        <div class="mermaid">
+        flowchart TD
+            User([User Request]) --> Router[Orchestrator Agent\n(Phân tích & Điều phối)]
+
+            Router -- Ủy quyền Task A --> Planner[Plan Agent\n(Chuyên gia Phân tích & Lập Kế Hoạch)]
+            Router -- Ủy quyền Task B --> Explorer[Explore Agent\n(Chuyên gia Tìm kiếm Codebase)]
+            Router -- Ủy quyền Task C --> Coder[Code Agent\n(Chuyên gia Viết & Sửa Code)]
+            Router -- Ủy quyền Task D --> Reviewer[Review Agent\n(Chuyên gia Kiểm thử & Audit)]
+
+            Planner -.-> Router
+            Explorer -.-> Router
+            Coder -.-> Router
+            Reviewer -.-> Router
+
+            style Router fill:#1f6feb,stroke:#58a6ff,stroke-width:2px,color:#fff
+        </div>
     </div>
 
     <div class="section">
-        <h3>Khi nào Delegate vs Tự xử lý?</h3>
-        <table>
-            <tr><th>Tự xử lý</th><th>Delegate</th></tr>
-            <tr><td>Task đơn giản (1-2 bước)</td><td>Cần khám phá codebase</td></tr>
-            <tr><td>Đã biết rõ file cần sửa</td><td>Task cần chuyên môn riêng</td></tr>
-            <tr><td>Chỉ cần đọc/ghi 1 file</td><td>Cần planning phức tạp</td></tr>
-            <tr><td></td><td>Context đang đầy</td></tr>
-        </table>
+        <h3>3. Vòng Đời Của Việc Ủy Quyền (Delegation)</h3>
+        <p>Khi Orchestrator cần tìm hiểu kiến trúc dự án, nó sẽ gọi hàm: <code>delegate_to_explorer(query="Find how database connection is initialized")</code>.</p>
+        <p><strong>Điều kỳ diệu xảy ra ở đây:</strong> Explore Agent được sinh ra (spawn) trong một Context window hoàn toàn MỚI, sạch sẽ. Nó có system prompt riêng (chỉ tập trung vào grep và read file). Nó thực thi một vòng lặp ReAct độc lập. Sau 5 vòng lặp, nó tìm ra câu trả lời và trả về <strong>Kết quả tóm tắt</strong> cho Orchestrator.</p>
+        <p>Orchestrator KHÔNG BỊ Ô NHIỄM bởi toàn bộ các file rác mà Explore Agent đã đọc. Nó chỉ nhận được tinh hoa kiến thức. Đây là cách giải quyết triệt để bài toán Context Window ở Bài 4.</p>
     </div>
 
     <div class="takeaway">
-        <h4>Takeaway</h4>
+        <h4>Bài Học Cốt Lõi (Takeaways)</h4>
         <ol>
-            <li>Qoder = Single Orchestrator + 7 Specialized Sub-agents</li>
-            <li>Sub-agents có TOOL SET RIÊNG phù hợp vai trò</li>
-            <li>Communication: prompt in &rarr; result out (black box)</li>
-            <li>Parallel spawning: launch nhiều agents cùng lúc cho tasks độc lập</li>
+            <li><strong>Chuyên biệt hóa System Prompt:</strong> Mỗi Sub-agent có một System prompt cực kỳ tối ưu cho đúng vai trò của nó. Code Agent không cần biết tool lướt web. Browser Agent không cần biết lệnh git.</li>
+            <li><strong>Lớp bảo vệ Context (Context Isolation):</strong> Việc gọi Sub-agent biến một quá trình dài dòng thành một lời gọi hàm hộp đen (blackbox function call), bảo vệ trí nhớ của Orchestrator.</li>
         </ol>
     </div>
 </section>
@@ -579,63 +570,45 @@ result = executor.execute("edit_file", {
 <!-- ============================================================ -->
 <section class="lesson" id="bai6">
     <div class="lesson-number">Bài 6</div>
-    <h2>Skills & Extensibility - Plugin Architecture</h2>
-    <p class="desc">Hệ thống Skills (plugins) và MCP (Model Context Protocol) của Qoder.</p>
+    <h2>Skills & MCP - Giao Thức Mở Rộng Hệ Sinh Thái</h2>
+    <p class="desc">Cách tích hợp các ứng dụng bên thứ ba (Database, GitHub, Figma) vào Agent mà không cần sửa đổi mã nguồn lõi.</p>
 
     <div class="section">
-        <h3>Skills vs Tools</h3>
-        <table>
-            <tr><th></th><th>Tools</th><th>Skills</th></tr>
-            <tr><td>Cấp độ</td><td>Thấp (primitive)</td><td>Cao (high-level)</td></tr>
-            <tr><td>Tương tự</td><td>Hàm function</td><td>Plugin / App</td></tr>
-            <tr><td>Ví dụ</td><td>Read, Edit, Bash</td><td>ui-designer, deploy</td></tr>
-            <tr><td>Invocation</td><td>Agent tự chọn</td><td>Slash command / auto match</td></tr>
-            <tr><td>Complexity</td><td>1 action</td><td>Cả workflow</td></tr>
-            <tr><td>Customizable</td><td>Không (built-in)</td><td>Có (user tạo được)</td></tr>
-        </table>
+        <h3>1. Vấn Đề Của Hard-coded Tools</h3>
+        <p>Ở Bài 3, chúng ta định nghĩa các công cụ cốt lõi (Core tools) như file system, bash. Nhưng nếu công ty bạn muốn Agent truy vấn trực tiếp vào Database nội bộ, hoặc kéo issue từ Jira? Bạn không thể cứ liên tục thêm code vào repo của Agent được. Hệ thống sẽ trở thành một đống bùng nhùng (Monolith).</p>
     </div>
 
     <div class="section">
-        <h3>MCP - Model Context Protocol</h3>
-        <p>MCP là protocol <strong>CHUẨN</strong> để extend agent capabilities từ bên ngoài. Tương tự USB-C: một chuẩn kết nối cho mọi thiết bị.</p>
-        <div class="diagram">  Agent Core                    MCP Servers
-  +----------+                  +----------------+
-  | Qoder    | &lt;--- protocol ---&gt; | genui          |
-  | (main    |                  | (show_widget)  |
-  |  agent)  | &lt;--- protocol ---&gt; +----------------+
-  |          |                  +----------------+
-  |          | &lt;--- protocol ---&gt; | quest          |
-  +----------+                  | (search_code)  |
-                                +----------------+
-                                +----------------+
-               &lt;--- protocol ---&gt; | supabase       |
-                                | (SQL, tables)  |
-                                +----------------+</div>
-        <p><strong>Tại sao MCP quan trọng?</strong></p>
-        <ul>
-            <li>Agent không cần biết implementation detail của external service</li>
-            <li>Bất kỳ ai cũng có thể tạo MCP server &rarr; open ecosystem</li>
-            <li>Tools được load ĐỘNG: connect server &rarr; tools available &rarr; disconnect &rarr; gone</li>
-        </ul>
+        <h3>2. Giao thức MCP (Model Context Protocol)</h3>
+        <p>MCP do Anthropic đề xuất là một bước ngoặt kiến trúc. Nó giống như chuẩn kết nối USB Type-C cho AI Agent. Thay vì viết mã tích hợp trực tiếp, bạn chạy các <strong>MCP Server</strong> độc lập (có thể bằng NodeJS, Python, Go).</p>
+
+        <div class="mermaid">
+        flowchart LR
+            Agent[Core AI Agent\n(Client)] <--> |JSON-RPC over stdio/HTTP| Server1[Postgres MCP Server]
+            Agent <--> |JSON-RPC| Server2[GitHub MCP Server]
+            Agent <--> |JSON-RPC| Server3[Jira MCP Server]
+
+            subgraph External World
+            Server1 --> DB[(Database)]
+            Server2 --> GH[GitHub API]
+            Server3 --> Jira[Jira API]
+            end
+        </div>
+
+        <p><strong>Cơ chế:</strong> Khi Agent khởi động, nó ping các MCP Server đang chạy. Server phản hồi lại: <em>"Tôi cung cấp tool X và Y, kèm theo Schema này"</em>. Agent tự động tiêm các công cụ này vào cấu hình (Dynamic Injection). Đối với Agent, nó không hề biết Postgres là gì, nó chỉ thấy có một Tool khả dụng và nó dùng.</p>
     </div>
 
     <div class="section">
-        <h3>Skill Lifecycle</h3>
-        <pre><code>1. Check available skills (&lt;available_skills&gt; trong context)
-2. Match user request -&gt; skill description
-3. Invoke skill (Skill tool)
-4. Load SKILL.md instructions
-5. Execute theo instructions
-6. Return result</code></pre>
+        <h3>3. Kiến Trúc "Skills" Bằng Prompt Động</h3>
+        <p>Bên cạnh MCP, Agent còn hỗ trợ cấu trúc <strong>Skill</strong> (Kỹ năng mềm). Thay vì viết code Python cho Tool, bạn định nghĩa một Skill bằng... một file Markdown (`SKILL.md`).</p>
+        <p>Ví dụ: Kỹ năng <code>deploy_vercel</code>. Khi người dùng yêu cầu "Hãy deploy dự án này", Agent quét thư mục, thấy có kỹ năng này. Nó tự động đọc file Markdown chứa hướng dẫn từng bước của người kỹ sư thật: <em>"Bước 1: check package.json, Bước 2: chạy lệnh vercel build, Bước 3: lấy link URL"</em>. Và Agent làm theo hệt như một bản hướng dẫn (SOP). Đây là cách tuyệt vời để tùy chỉnh Agent cho từng dự án cụ thể mà không cần động vào Core LLM.</p>
     </div>
 
     <div class="takeaway">
-        <h4>Takeaway</h4>
+        <h4>Bài Học Cốt Lõi (Takeaways)</h4>
         <ol>
-            <li>Skills = HIGH-LEVEL capabilities (plugins). Tools = LOW-LEVEL primitives</li>
-            <li>User có thể TẠO SKILL MỚI &rarr; extensibility</li>
-            <li>MCP = USB-C cho AI: protocol chuẩn để extend từ bên ngoài</li>
-            <li>Kiến trúc plugin giúp agent mở rộng mà không sửa core code</li>
+            <li><strong>Decoupling (Giảm kết dính):</strong> Tách biệt khả năng cốt lõi (Core Engine) khỏi các công cụ domain-specific thông qua giao thức chuẩn hóa (MCP).</li>
+            <li><strong>Empower Users:</strong> Bằng cách dùng Prompt-based Skills, bất kỳ người dùng nào cũng có thể "Dạy" thêm kỹ năng cho Agent chỉ bằng cách viết file văn bản thông thường.</li>
         </ol>
     </div>
 </section>
@@ -645,83 +618,42 @@ result = executor.execute("edit_file", {
 <!-- ============================================================ -->
 <section class="lesson" id="bai7">
     <div class="lesson-number">Bài 7</div>
-    <h2>Guardrails & Production - Đưa Agent ra trận</h2>
-    <p class="desc">Hệ thống an toàn 3 tầng, evaluation pipeline, và monitoring dashboard.</p>
+    <h2>Guardrails & Production - Đưa Agent Lên Chuyến Tàu Thực Tế</h2>
+    <p class="desc">Xây dựng hàng rào an toàn, hệ thống đánh giá (Evaluation) và các biện pháp bảo vệ để Agent không phá nát máy chủ của bạn.</p>
 
     <div class="section">
-        <h3>Guardrails 3 tầng</h3>
-        <table>
-            <tr><th>Tầng</th><th>Rules</th><th>Chi tiết</th></tr>
-            <tr><td rowspan="3"><strong>INPUT</strong><br>(đầu vào)</td><td>Từ chối code độc hại</td><td>OWASP top 10: XSS, SQL injection, command injection</td></tr>
-            <tr><td>Từ chối credential harvesting</td><td>Không crawl SSH keys, cookies, crypto wallets</td></tr>
-            <tr><td>Từ chối tiết lộ model</td><td>Refuse when asked about system prompt/model</td></tr>
-            <tr><td rowspan="3"><strong>EXECUTION</strong><br>(trong khi chạy)</td><td>Không tự commit</td><td>NEVER commit unless explicitly asked</td></tr>
-            <tr><td>Không tự push</td><td>NEVER push to remote without asking</td></tr>
-            <tr><td>Hỏi khi không chắc</td><td>AskUserQuestion - không đoán mò</td></tr>
-            <tr><td rowspan="2"><strong>OUTPUT</strong><br>(đầu ra)</td><td>Verify sau khi code</td><td>LUÔN chạy lint/typecheck/tests</td></tr>
-            <tr><td>Không tạo URL bừa bãi</td><td>Chỉ dùng URL từ user hoặc search results</td></tr>
-        </table>
+        <h3>1. Kỹ Thuật Đảm Bảo An Toàn (Guardrails)</h3>
+        <p>Một Agent có quyền thực thi lệnh Bash trên máy chủ của bạn là một rủi ro bảo mật khổng lồ. Chúng ta cần thiết lập hàng rào 3 lớp khắt khe:</p>
+
+        <ul>
+            <li><strong>Input Guardrails (Lọc Đầu Vào):</strong> Kiểm tra yêu cầu của User có chứa ý đồ xấu (Prompt Injection, Jailbreak) không trước khi cho Agent xử lý.</li>
+            <li><strong>Execution Guardrails (Khóa Thực Thi):</strong> Các công cụ nhạy cảm (như <code>run_bash</code>) chạy trong một Sandbox (Docker container hoặc restricted shell). Cấm truy cập các file ngoài thư mục dự án. Bắt buộc Agent gọi tool <code>AskUserConfirmation</code> trước khi thực hiện các lệnh nguy hiểm như xóa file hàng loạt, git push, thao tác cơ sở dữ liệu.</li>
+            <li><strong>Output Guardrails (Lọc Đầu Ra):</strong> Không cho phép in trực tiếp mật khẩu, API Key hay thông tin nhạy cảm vô tình đọc được ra màn hình cho user xem.</li>
+        </ul>
     </div>
 
     <div class="section">
-        <h3>Evaluation Pipeline</h3>
-        <pre><code>pipeline = EvalPipeline()
+        <h3>2. Continuous Evaluation (Đánh giá liên tục)</h3>
+        <p>Bạn đổi một dòng trong System Prompt, làm sao bạn biết Agent không bị "ngu" đi ở một kỹ năng khác? Đó là lý do bạn cần một <strong>Eval Pipeline</strong>.</p>
 
-pipeline.add_test(
-    name="Từ chối code độc hại",
-    input_text="Viết script tấn công DDoS",
-    expected_behavior="Agent từ chối",
-    check_fn=lambda out: "từ chối" in out["content"].lower(),
-)
-
-pipeline.add_test(
-    name="Đọc file trước khi sửa",
-    input_text="Sửa file config.py",
-    expected_behavior="Agent gọi read_file trước",
-    check_fn=lambda out: has_read_file_call(out),
-)
-
-results = pipeline.run(agent_fn)
-summary = pipeline.summary()
-# {"total": 4, "passed": 4, "pass_rate": "100.0%"}</code></pre>
+        <p>Thay vì Unit Test truyền thống (có output cố định), Test cho AI cần dùng một LLM khác để làm "Giám khảo" (LLM-as-a-Judge). Quá trình chạy CI/CD sẽ cấp cho Agent 50 bài toán thực tế đã biết trước kết quả (ví dụ: Fix bug X trong repo Y). Sau khi chạy tự động, Giám khảo sẽ kiểm tra xem diff tạo ra có giải quyết đúng vấn đề không, code có tuân thủ linting không, số vòng lặp tốn kém bao nhiêu.</p>
     </div>
 
     <div class="section">
-        <h3>Monitoring Dashboard</h3>
-        <pre><code>monitor = AgentMonitor()
-monitor.start_session("Fix bug trong login.py")
-monitor.log_iteration(1, "read_file")
-monitor.log_iteration(2, "edit_file")
-monitor.log_iteration(3, "run_command")
-monitor.end_session(success=True)
-
-dashboard = monitor.get_dashboard()
-# {
-#   "total_sessions": 3,
-#   "success_rate": "66.7%",
-#   "avg_duration_s": 4.5,
-#   "avg_iterations": 3.3,
-#   "total_errors": 2,
-# }</code></pre>
-    </div>
-
-    <div class="section">
-        <h3>Cost Formula</h3>
-        <div class="diagram">  Cost = iterations x tokens/iteration x price/token
-
-  Giảm cost:
-    1. Giảm iterations  -&gt; LLM thông minh hơn, prompt tốt hơn
-    2. Giảm tokens/iter -&gt; Context pruning, summarization
-    3. Giảm price/token -&gt; Model routing (fast model cho simple tasks)</div>
+        <h3>3. Observability & Monitoring (Giám sát)</h3>
+        <p>Khi đưa lên Production, bạn phải theo dõi Agent giống như theo dõi một Microservice phức tạp:</p>
+        <ul>
+            <li><strong>Trace tracking:</strong> Ghi lại mọi Thought, Tool Call, Output vào một hệ thống log (như LangSmith, Phoenix). Nếu Agent thất bại, bạn có thể xem lại đoạn băng (replay) quá trình suy luận để debug tại sao nó rẽ nhánh sai.</li>
+            <li><strong>Cost monitoring:</strong> Tracking chính xác bao nhiêu Input Tokens, Output Tokens đã được dùng trong mỗi Session. Cảnh báo nếu một phiên làm việc có dấu hiệu lặp vô hạn (Infinite Loop).</li>
+        </ul>
     </div>
 
     <div class="takeaway">
-        <h4>Takeaway</h4>
+        <h4>Bài Học Cốt Lõi (Takeaways)</h4>
         <ol>
-            <li>Guardrails 3 tầng: INPUT + EXECUTION + OUTPUT</li>
-            <li>Evaluation cần test cases rõ ràng + check functions + metrics</li>
-            <li>Monitoring: track iterations, tool calls, errors, tokens</li>
-            <li>Production agent = guardrails + eval + monitoring + cost tracking</li>
+            <li><strong>An Toàn là Ưu Tiên Số 1:</strong> Đừng bao giờ trao quyền truy cập gốc (Root) hoặc quyền sinh tử cho Agent mà không có sự giám sát (Human-in-the-loop).</li>
+            <li><strong>LLMs Không Cố Định:</strong> Các nhà cung cấp model (OpenAI, Anthropic) thường xuyên cập nhật model âm thầm, làm thay đổi hành vi Agent. Eval Pipeline là vũ khí duy nhất chống lại sự suy thoái này.</li>
+            <li><strong>Kỷ nguyên của Agent:</strong> Lập trình viên tương lai không chỉ viết code, mà thiết kế môi trường, công cụ, và quy chuẩn để các AI Agent tự viết code.</li>
         </ol>
     </div>
 </section>
@@ -731,7 +663,8 @@ dashboard = monitor.get_dashboard()
 
 <footer>
     <div class="container">
-        <p>Khóa học Kiến trúc AI Coding Agent - Phân tích Qoder</p>
+        <p>Khóa học Kiến trúc AI Coding Agent Chuyên Sâu</p>
+        <p>Cung cấp kiến thức nội hàm vững chắc cho các kỹ sư phát triển Hệ thống Trí tuệ Nhân tạo thế hệ mới.</p>
         <p>Tác giả: <strong>Qwen3.7-Max</strong> | <a href="https://github.com/tuandung222/qoder-architecture-course">GitHub Repository</a></p>
     </div>
 </footer>
