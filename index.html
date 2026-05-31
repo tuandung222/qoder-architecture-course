@@ -268,7 +268,6 @@
         <h1>Kiến trúc AI Coding Agent Chuyên Sâu</h1>
         <p class="subtitle">Phân tích toàn diện từ Core Pattern đến Môi trường Production thực tế. Đào sâu vào cách các AI Agent vận hành.</p>
         <div class="meta">
-            <span>Tác giả: <strong>Qwen3.7-Max</strong></span>
             <span class="badge badge-green">7/7 CI passing</span>
             <span class="badge badge-blue">Python 3.9+</span>
         </div>
@@ -533,12 +532,12 @@
 
         <div class="mermaid">
         flowchart TD
-            User([User Request]) --> Router[Orchestrator Agent\n(Phân tích & Điều phối)]
+            User([User Request]) --> Router["Orchestrator Agent\n(Phân tích & Điều phối)"]
 
-            Router -- Ủy quyền Task A --> Planner[Plan Agent\n(Chuyên gia Phân tích & Lập Kế Hoạch)]
-            Router -- Ủy quyền Task B --> Explorer[Explore Agent\n(Chuyên gia Tìm kiếm Codebase)]
-            Router -- Ủy quyền Task C --> Coder[Code Agent\n(Chuyên gia Viết & Sửa Code)]
-            Router -- Ủy quyền Task D --> Reviewer[Review Agent\n(Chuyên gia Kiểm thử & Audit)]
+            Router -- "Ủy quyền Task A" --> Planner["Plan Agent\n(Chuyên gia Phân tích & Lập Kế Hoạch)"]
+            Router -- "Ủy quyền Task B" --> Explorer["Explore Agent\n(Chuyên gia Tìm kiếm Codebase)"]
+            Router -- "Ủy quyền Task C" --> Coder["Code Agent\n(Chuyên gia Viết & Sửa Code)"]
+            Router -- "Ủy quyền Task D" --> Reviewer["Review Agent\n(Chuyên gia Kiểm thử & Audit)"]
 
             Planner -.-> Router
             Explorer -.-> Router
@@ -584,14 +583,14 @@
 
         <div class="mermaid">
         flowchart LR
-            Agent[Core AI Agent\n(Client)] <--> |JSON-RPC over stdio/HTTP| Server1[Postgres MCP Server]
-            Agent <--> |JSON-RPC| Server2[GitHub MCP Server]
-            Agent <--> |JSON-RPC| Server3[Jira MCP Server]
+            Agent["Core AI Agent\n(Client)"] &lt;--&gt; |"JSON-RPC over stdio/HTTP"| Server1["Postgres MCP Server"]
+            Agent &lt;--&gt; |"JSON-RPC"| Server2["GitHub MCP Server"]
+            Agent &lt;--&gt; |"JSON-RPC"| Server3["Jira MCP Server"]
 
             subgraph External World
-            Server1 --> DB[(Database)]
-            Server2 --> GH[GitHub API]
-            Server3 --> Jira[Jira API]
+            Server1 --> DB[("(Database)")]
+            Server2 --> GH["GitHub API"]
+            Server3 --> Jira["Jira API"]
             end
         </div>
 
@@ -665,7 +664,7 @@
     <div class="container">
         <p>Khóa học Kiến trúc AI Coding Agent Chuyên Sâu</p>
         <p>Cung cấp kiến thức nội hàm vững chắc cho các kỹ sư phát triển Hệ thống Trí tuệ Nhân tạo thế hệ mới.</p>
-        <p>Tác giả: <strong>Qwen3.7-Max</strong> | <a href="https://github.com/tuandung222/qoder-architecture-course">GitHub Repository</a></p>
+        <p><a href="https://github.com/tuandung222/qoder-architecture-course">GitHub Repository</a></p>
     </div>
 </footer>
 
