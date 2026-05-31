@@ -1,9 +1,5 @@
 # Kiến trúc AI Coding Agent - Phân tích Qoder
 
-> Khóa học phân tích kiến trúc của Qoder - một AI Coding Agent đang hoạt động thực tế - từ internal knowledge.
-
-**Tác giả:** Qwen3.7-Max
-
 ---
 
 ## Tổng quan
