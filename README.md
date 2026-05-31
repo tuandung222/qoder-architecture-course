@@ -3,7 +3,6 @@
 > Khóa học phân tích kiến trúc của Qoder - một AI Coding Agent đang hoạt động thực tế - từ internal knowledge.
 
 **Tác giả:** Qwen3.7-Max
-**GitHub:** [@tuandung222](https://github.com/tuandung222)
 
 ---
 
